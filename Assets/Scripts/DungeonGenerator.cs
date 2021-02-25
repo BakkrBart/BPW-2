@@ -23,7 +23,7 @@ public class DungeonGenerator : MonoBehaviour
 
     void Start()
     {
-        
+        GenerateDungeon();
     }
 
     private void AllocateRooms()
@@ -32,7 +32,7 @@ public class DungeonGenerator : MonoBehaviour
         {
             Room room = new Room()
             {
-                Position = new Vector2Int(Random.Range(0, width), Random.Range(0, height)),
+                position = new Vector2Int(Random.Range(0, width), Random.Range(0, height)),
                 size = new Vector2Int(Random.Range(minRoomSize, maxRoomSize), Random.Range(minRoomSize, maxRoomSize))
             };
 
@@ -107,17 +107,38 @@ public class DungeonGenerator : MonoBehaviour
 
     private void BuildDungeon()
     {
+        foreach(KeyValuePair<Vector2Int, Tile> kv in dungeonDictionary)
+        {
+            GameObject floor = Instantiate(FloorPrefab, new Vector3Int(kv.Key.x, 0, kv.Key.y), Quaternion.identity);
+            allSpawnedObjects.Add(floor);
 
+            SpawnWallsForTile(kv.Key);
+        }
     }
 
-    private void SpawnWallsForTile(Vector2Int Position)
+    private void SpawnWallsForTile(Vector2Int position)
     {
-
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int z = -1; z <= 1; z++)
+            {
+                if(Mathf.Abs(x) == Mathf.Abs(z)) { continue; }
+                Vector2Int gridPos = position + new Vector2Int(x, z);
+                if (!dungeonDictionary.ContainsKey(gridPos))
+                {
+                    Vector3 direction = new Vector3(gridPos.x, 0, gridPos.y) - new Vector3(position.x, 0, position.y);
+                    GameObject wall = Instantiate(WallPrefab, new Vector3(position.x, 0, position.y), Quaternion.LookRotation(direction));
+                    allSpawnedObjects.Add(wall);
+                }
+            }
+        }
     }
 
     public void GenerateDungeon()
     {
-
+        AllocateRooms();
+        AllocateCorridors();
+        BuildDungeon();
     }
 }
 
