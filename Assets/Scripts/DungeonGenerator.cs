@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace roguelike.generator
 {
@@ -13,6 +14,7 @@ namespace roguelike.generator
         public GameObject WallPrefab;
         public GameObject EnemyPrefab;
         public GameObject PlanePrefab;
+        
         public GameObject Player;
 
         [Header("DungeonSettings")]
@@ -28,11 +30,15 @@ namespace roguelike.generator
         private List<Room> roomList = new List<Room>();
         private List<GameObject> allSpawnedObjects = new List<GameObject>();
 
+        public NavMeshSurface surface;
+
         void Start()
         {
             seed = Random.Range(0, 1000);
             Random.InitState(seed);
             GenerateDungeon();
+
+            surface.BuildNavMesh();
         }
 
         private void AllocateRooms()
