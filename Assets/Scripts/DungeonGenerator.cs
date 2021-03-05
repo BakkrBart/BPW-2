@@ -12,6 +12,7 @@ namespace roguelike.generator
         public GameObject FloorPrefab;
         public GameObject WallPrefab;
         public GameObject EnemyPrefab;
+        public GameObject PlanePrefab;
         public GameObject Player;
 
         [Header("DungeonSettings")]
@@ -118,8 +119,16 @@ namespace roguelike.generator
             }
         }
 
+        private void AllocateFloor()
+        {
+
+        }
+
         private void BuildDungeon()
         {
+            GameObject plane = Instantiate(PlanePrefab, new Vector3Int((width / 2), 0, (height / 2)), Quaternion.LookRotation(new Vector3(0, 0, 0)));
+            plane.transform.localScale = new Vector3Int(width, 1, height);
+            
             foreach (KeyValuePair<Vector2Int, Tile> kv in dungeonDictionary)
             {
                 GameObject floor = Instantiate(FloorPrefab, new Vector3Int(kv.Key.x, 0, kv.Key.y), Quaternion.identity);
@@ -149,6 +158,7 @@ namespace roguelike.generator
 
         public void GenerateDungeon()
         {
+            AllocateFloor();
             AllocateRooms();
             AllocateCorridors();
             BuildDungeon();
