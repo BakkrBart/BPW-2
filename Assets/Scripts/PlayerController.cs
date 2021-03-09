@@ -3,23 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace roguelike.controller
+namespace roguelike
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField]
-        private float moveSpeed = 5f;
-        [SerializeField]
-        private float rotateSpeed = 15f;
+        private float moveSpeed;
+        private float rotateSpeed;
 
         [SerializeField]
         private bool rotatingToMouse;
 
         public Rigidbody rigidBody;
-
         public Camera cam;
+        public PlayerStats playerStats;
+        public Animator animator;
 
         Vector3 movement;
+
+        private void Start()
+        {
+            moveSpeed = playerStats.moveSpeed;
+            rotateSpeed = playerStats.rotateSpeed;
+        }
+
         void Update()
         {
             CheckInput();
@@ -51,6 +57,7 @@ namespace roguelike.controller
         private void Movement()
         {
             rigidBody.MovePosition(rigidBody.position + movement * moveSpeed * Time.fixedDeltaTime);
+            animator.SetFloat("Speed", Mathf.Abs(movement.magnitude));
         }
 
         private void CheckInput()

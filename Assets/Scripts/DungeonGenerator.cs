@@ -132,7 +132,7 @@ namespace roguelike.generator
 
         private void BuildDungeon()
         {
-            GameObject plane = Instantiate(PlanePrefab, new Vector3Int((width / 2), 0, (height / 2)), Quaternion.LookRotation(new Vector3(0, 0, 0)));
+            GameObject plane = Instantiate(PlanePrefab, new Vector3Int((width / 2), 0, (height / 2)), Quaternion.LookRotation(new Vector3(0, 0, 90)));
             plane.transform.localScale = new Vector3Int(width, 1, height);
             
             foreach (KeyValuePair<Vector2Int, Tile> kv in dungeonDictionary)
@@ -181,7 +181,7 @@ namespace roguelike.generator
             {
                 for (int i = 0; i < enemiesInRoom; i++)
                 {
-                    GameObject enemy = Instantiate(EnemyPrefab, room.randomPos(), Quaternion.LookRotation(new Vector3(0,0,0)));
+                    GameObject enemy = Instantiate(EnemyPrefab, room.randomPos(), Quaternion.LookRotation(new Vector3(0,0,1)));
                     allSpawnedObjects.Add(enemy);
                 }
             }

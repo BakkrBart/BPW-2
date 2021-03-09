@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 6255687923839287216}
   - component: {fileID: -1711317650561254167}
   - component: {fileID: -4641937843865225617}
+  - component: {fileID: -3375149285641025333}
+  - component: {fileID: 8488641428951947897}
+  - component: {fileID: 505263099326989798}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -47,9 +50,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da23cb28f79204199169904632a331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  currHealth: 0
+  lastAttack: 0
+  maxHealth: 0
+  attackCooldown: 2
+  damage: 0
+  isDead: 0
+  attackRange: 0.85
   detectRange: 3.5
-  attackRange: 0.75
+  player: {fileID: 0}
+  animator: {fileID: 0}
+  enemyStats: {fileID: 0}
   state: 0
 --- !u!195 &-4641937843865225617
 NavMeshAgent:
@@ -61,7 +72,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1.97
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -73,6 +84,55 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &-3375149285641025333
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680368321270511481}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8488641428951947897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680368321270511481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6c7b50fa7f3154197eba70223db4dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currHealth: 0
+  lastAttack: 0
+  maxHealth: 100
+  attackCooldown: 0
+  damage: 5
+  isDead: 0
+  attackRange: 4.89
+  detectRange: 3.5
+--- !u!65 &505263099326989798
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680368321270511481}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.06, y: 0.78, z: 0.79}
+  m_Center: {x: -0.00000018519461, y: 0.39, z: 0.00000018519461}
 --- !u!1 &2717186445068965346
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,7 +145,7 @@ GameObject:
   - component: {fileID: 4348617899010924060}
   - component: {fileID: 4959858499118910172}
   - component: {fileID: 4586575156282340187}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,6 +189,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -153,6 +214,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &4586575156282340187
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -177,7 +239,7 @@ GameObject:
   - component: {fileID: 1576857322647173997}
   - component: {fileID: 819767246091576875}
   - component: {fileID: 636689680869964608}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,6 +283,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -245,6 +308,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &3702654709755071182
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +355,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

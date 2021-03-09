@@ -1,23 +1,36 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace roguelike.enemy
+namespace roguelike
 {
     public class Enemy : MonoBehaviour
     {
         public Transform player;
+        public Animator animator;
+        public EnemyStats enemyStats;
 
-        public float detectRange = 3.5f;
-        public float attackRange = 1f;
+        private float detectRange;
+        private float attackRange;
+        private float lastAttack;
+        private float attackCooldown;
+        private float damage;
 
         public enum StateEnum { idle, walk, attack}
         [SerializeField]
         private StateEnum state;
 
         NavMeshAgent agent;
+
         private void Start()
         {
             player = GameObject.Find("Player").transform;
+
+            detectRange = enemyStats.detectRange;
+            attackRange = enemyStats.attackRange;
+            lastAttack = enemyStats.lastAttack;
+            attackCooldown = enemyStats.attackCooldown;
+            damage = enemyStats.damage;
+
             agent = GetComponent<NavMeshAgent>();
         }
 
@@ -38,6 +51,7 @@ namespace roguelike.enemy
 
         private void IdleBehaviour()
         {
+            animator.SetFloat("Speed", 0);
             if (Vector3.Distance(transform.position, player.position) < detectRange)
             {
                 state = (StateEnum.walk);
@@ -48,6 +62,8 @@ namespace roguelike.enemy
 
         private void WalkBehaviour()
         {
+            animator.SetFloat("Speed", 1);
+
             if (Vector3.Distance(transform.position, player.position) > detectRange)
             {
                 state = (StateEnum.idle);
@@ -64,12 +80,26 @@ namespace roguelike.enemy
 
         private void AttackBehaviour()
         {
+            animator.SetFloat("Speed", 0);
+
             if (Vector3.Distance(transform.position, player.position) > attackRange)
             {
                 state = (StateEnum.walk);
             }
 
             agent.isStopped = true;
+
+            if (Time.time - lastAttack >= attackCooldown)
+            {
+                animator.SetTrigger("Attack");
+                lastAttack = Time.time;
+                GiveDamage();
+            }
+        }
+
+        private void GiveDamage()
+        {
+            player.GetComponent<PlayerStats>().TakeDamage(damage);
         }
     }
 }
