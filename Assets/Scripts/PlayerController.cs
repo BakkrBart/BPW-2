@@ -7,34 +7,34 @@ namespace roguelike
 {
     public class PlayerController : MonoBehaviour
     {
-        private float moveSpeed;
-        private float rotateSpeed;
+        private float moveSpeed; //x
+        private float rotateSpeed;//x
 
         [SerializeField]
-        private bool rotatingToMouse;
+        private bool rotatingToMouse;//x
 
-        public Rigidbody rigidBody;
-        public Camera cam;
-        public PlayerStats playerStats;
-        public Animator animator;
+        public Rigidbody rigidBody;//x
+        public Camera cam;//x
+        public PlayerStats playerStats;//x
+        public Animator animator;//x
 
-        Vector3 movement;
+        Vector3 movement;//x
 
-        private void Start()
+        private void Start()//x
         {
-            moveSpeed = playerStats.moveSpeed;
-            rotateSpeed = playerStats.rotateSpeed;
+            moveSpeed = playerStats.moveSpeed;//x
+            rotateSpeed = playerStats.rotateSpeed;//x
         }
 
-        void Update()
+        void Update()//x
         {
-            CheckInput();
+            CheckInput();//x
         }
 
-        private void FixedUpdate()
+        private void FixedUpdate()//x
         {
-            Movement();
-            if (rotatingToMouse)
+            Movement();//x
+            if (rotatingToMouse)//x
             {
                 RotateToMouse();
             }
@@ -44,7 +44,7 @@ namespace roguelike
             }
         }
 
-        private void RotateToMovement()
+        private void RotateToMovement() //x
         {
             if (movement.magnitude == 0)
             {
@@ -54,19 +54,19 @@ namespace roguelike
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotateSpeed);
         }
 
-        private void Movement()
+        private void Movement()//x
         {
             rigidBody.MovePosition(rigidBody.position + movement * moveSpeed * Time.fixedDeltaTime);
             animator.SetFloat("Speed", Mathf.Abs(movement.magnitude));
         }
 
-        private void CheckInput()
+        private void CheckInput()//x
         {
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.z = Input.GetAxisRaw("Vertical");
         }
 
-        private void RotateToMouse()
+        private void RotateToMouse()//x
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 

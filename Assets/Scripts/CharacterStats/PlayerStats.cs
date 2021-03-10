@@ -7,6 +7,8 @@ namespace roguelike
     public class PlayerStats : CharacterStats
     {
         public PlayerController movement;
+        public GameObject deathScreen;
+        public GameObject ingameUI;
 
         public float moveSpeed;
         public float rotateSpeed;
@@ -32,7 +34,9 @@ namespace roguelike
         public override void Die()
         {
             GetComponent<PlayerController>().enabled = false;
-            //UI for death
+            Time.timeScale = 0;
+            deathScreen.gameObject.SetActive(true);
+            ingameUI.gameObject.SetActive(false);
         }
     }
 }

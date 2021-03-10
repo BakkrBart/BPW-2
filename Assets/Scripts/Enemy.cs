@@ -82,18 +82,20 @@ namespace roguelike
         {
             animator.SetFloat("Speed", 0);
 
-            if (Vector3.Distance(transform.position, player.position) > attackRange)
-            {
-                state = (StateEnum.walk);
-            }
-
             agent.isStopped = true;
+
+            transform.LookAt(player);
 
             if (Time.time - lastAttack >= attackCooldown)
             {
                 animator.SetTrigger("Attack");
                 lastAttack = Time.time;
                 GiveDamage();
+            }
+
+            if (Vector3.Distance(transform.position, player.position) > attackRange)
+            {
+                state = (StateEnum.walk);
             }
         }
 

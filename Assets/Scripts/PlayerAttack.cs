@@ -6,25 +6,25 @@ namespace roguelike
 {
     public class PlayerAttack : MonoBehaviour
     {
-        public Transform attackPoint;
-        public float attackRange = 0.5f;
-        public LayerMask enemyLayers;
-        public Animator animator;
-        public PlayerController movement;
-        public PlayerStats playerStats;
+        public Transform attackPoint;//x
+        public float attackRange = 0.5f;//x
+        public LayerMask enemyLayers;//x
+        public Animator animator;//x
+        public PlayerController movement;//x (not used)
+        public PlayerStats playerStats;//x
 
-        private float damage;
-        private float lastAttack;
-        private float attackCooldown;
+        private float damage;//x
+        private float lastAttack;//x
+        private float attackCooldown;//x
 
-        private void Start()
+        private void Start()//x
         {
             damage = playerStats.damage;
             lastAttack = playerStats.lastAttack;
             attackCooldown = playerStats.attackCooldown;
         }
 
-        void Update()
+        void Update()//x
         {
             damage = gameObject.GetComponent<PlayerStats>().damage;
             if (Input.GetKeyDown(KeyCode.Space))
@@ -37,7 +37,7 @@ namespace roguelike
             }
         }
 
-        IEnumerator MyCoroutine()
+        IEnumerator MyCoroutine()//x
         {
             Attack();
             yield return new WaitForSeconds(1.21f);
@@ -47,19 +47,16 @@ namespace roguelike
         void Attack()
         {
             GetComponent<PlayerController>().enabled = false;
-
             animator.SetTrigger("Attack");
-
-            Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
-
-            foreach (Collider enemy in hitEnemies)
-            {
-                enemy.GetComponent<EnemyStats>().TakeDamage(damage);
-            }
         }
 
         void AttackEnd()
         {
+            Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
+            foreach (Collider enemy in hitEnemies)
+            {
+                enemy.GetComponent<EnemyStats>().TakeDamage(damage);
+            }
             GetComponent<PlayerController>().enabled = true;
         }
 
