@@ -19,17 +19,13 @@ namespace roguelike
 
         public GameObject gameController;
         public DungeonSettings settings;
+        public GameObject noSaveFile;
 
         void Start()
         {
-            if (Application.isEditor)
-            {
-                fullPath = Application.dataPath + fileName + ".json";
-            }
-            else
-            {
-                fullPath = Application.persistentDataPath + fileName + ".json";
-            }
+            noSaveFile.SetActive(false);
+            fullPath = Application.persistentDataPath + fileName + ".json";
+            
             if (loadedMenu == 1)
             {
                 loadedMenu = 0;
@@ -63,6 +59,9 @@ namespace roguelike
                 reader.Close();
                 reader.Dispose();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            } else
+            {
+                noSaveFile.SetActive(true);
             }
         }
 

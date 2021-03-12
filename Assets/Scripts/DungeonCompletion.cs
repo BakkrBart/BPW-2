@@ -53,6 +53,7 @@ namespace roguelike
         {
             SaveData.reloaded = 1;
             SaveData.loaded = 0;
+            SaveData.fresh_loaded = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
