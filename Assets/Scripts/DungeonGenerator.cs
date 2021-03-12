@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace roguelike.generator
+namespace roguelike
 {
     public class DungeonGenerator : MonoBehaviour
     {
@@ -17,6 +17,8 @@ namespace roguelike.generator
         
         public GameObject Player;
 
+        public DungeonCompletion dungeonCompletion;
+
         [Header("DungeonSettings")]
         public int amountRooms;
         public int width = 100;
@@ -25,6 +27,8 @@ namespace roguelike.generator
         public int maxRoomSize = 7;
         public int enemiesInRoom = 2;
         public int seed;
+        public DungeonSettings settings;
+        public GameObject gameController;
 
         private Dictionary<Vector2Int, Tile> dungeonDictionary = new Dictionary<Vector2Int, Tile>();
         private List<Room> roomList = new List<Room>();
@@ -34,7 +38,7 @@ namespace roguelike.generator
 
         void Start()
         {
-            seed = Random.Range(0, 1000);
+            CheckLoadState();
             Random.InitState(seed);
             GenerateDungeon();
 
@@ -183,7 +187,20 @@ namespace roguelike.generator
                 {
                     GameObject enemy = Instantiate(EnemyPrefab, room.randomPos(), Quaternion.LookRotation(new Vector3(0,0,1)));
                     allSpawnedObjects.Add(enemy);
+                    enemy.GetComponent<EnemyStats>().dungeonCompletion = dungeonCompletion;
+                    dungeonCompletion.enemiesInScene = dungeonCompletion.enemiesInScene + 1;
                 }
+            }
+        }
+        public void CheckLoadState()
+        {
+            if (SaveData.loaded == 1)
+            {
+                seed = settings.seed;
+            }
+            else
+            {
+                seed = Random.Range(0, 1000);
             }
         }
     }
@@ -203,4 +220,5 @@ namespace roguelike.generator
             return new Vector3(position.x + (size.x / 2), 0, position.y + (size.y / 2));
         }
     }
+
 }

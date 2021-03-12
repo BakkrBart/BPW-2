@@ -7,7 +7,9 @@ namespace roguelike
     public class EnemyStats : CharacterStats
     {
         public float detectRange = 3.5f;
-        
+
+        public DungeonCompletion dungeonCompletion;
+
         private void Start()
         {
             maxHealth = 100;
@@ -24,6 +26,7 @@ namespace roguelike
         public override void Die()
         {
             Destroy(gameObject);
+            dungeonCompletion.enemiesInScene = dungeonCompletion.enemiesInScene - 1;
         }
     }
 }

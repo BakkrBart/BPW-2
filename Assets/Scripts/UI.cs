@@ -24,6 +24,7 @@ namespace roguelike
             {
                 healthAmount.color = Color.green;
             }
+
             healthAmount.text = currHealth.ToString();
         }
     }

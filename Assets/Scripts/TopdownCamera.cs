@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace roguelike.camera
+namespace roguelike
 {
     public class TopdownCamera : MonoBehaviour
     {

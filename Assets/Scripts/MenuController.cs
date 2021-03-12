@@ -11,8 +11,14 @@ namespace roguelike
         public GameObject MainMenu;
         public GameObject PauseScreen;
         public GameObject IngameUI;
+        public GameObject noSaveFile;
 
         bool isPaused = false;
+
+        private void start()
+        {
+            noSaveFile.SetActive(false);
+        }
 
         private void Update()
         {
@@ -26,6 +32,25 @@ namespace roguelike
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             Time.timeScale = 1;
+            SaveData.loaded = 0;
+            SaveData.reloaded = 1;
+            SaveData.fresh_loaded = 1;
+        }
+
+        public void LoadGame()
+        {
+            if (SaveData.saved == 1)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                Time.timeScale = 1;
+                SaveData.loaded = 1;
+                SaveData.reloaded = 0;
+                SaveData.fresh_loaded = 0;
+                SaveData.loadedMenu = 1;
+            } else
+            {
+                noSaveFile.SetActive(true);
+            }
         }
 
         public void TogglePause()
